@@ -70,17 +70,21 @@
             resultDiv.innerHTML = "Processing...";
 
             try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbwaWirqkAQ7Dd7VlF0l9K8JdJgrFWbsvT-ytTDITjAHAp3_oFV3kRiBkjLPvUESmY05rQ/exec", {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbx-6ju6vir6_bcpAvw1pHcowc6_yruBZyIkKIFBTr8BHohuru5vLq0gD9t4Tbp7HXjbpg/exec", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: JSON.stringify({ userId: userId }),
+                    body: new URLSearchParams({ userId: userId }),
                 });
 
                 const data = await response.json();
                 if (data.success) {
-                    resultDiv.innerHTML = `<p style="color: green; font-weight: bold;">User ID "${userId}" has sent ${data.sentMessagesToday} messages today.<br>Remaining SMS balance: ${data.remainingSMS}</p>`;
+                    resultDiv.innerHTML = `
+                        <p style="color: green; font-weight: bold;">
+                            User ID "${userId}" has sent ${data.sentMessagesToday} messages today.<br>
+                            Remaining SMS balance: ${data.remainingSMS}
+                        </p>`;
                 } else {
                     resultDiv.innerHTML = `<p style="color: red;">${data.error}</p>`;
                 }
@@ -91,3 +95,4 @@
     </script>
 </body>
 </html>
+
